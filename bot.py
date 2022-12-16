@@ -2,25 +2,19 @@ import logging
 import os
 
 from environs import Env
+from google_methods.set_intent import set_intent
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 
 def start(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
-    update.message.reply_markdown_v2(
-        fr'Здравствуйте {user.mention_markdown_v2()}\!',
-        reply_markup=ForceReply(selective=True),
-    )
+    update.message.reply_markdown_v2(fr'Здравствуйте {user.mention_markdown_v2()}\!', reply_markup=ForceReply(selective=True))
 
 
-# def help_command(update: Update, context: CallbackContext) -> None:
-#     """Send a message when the command /help is issued."""
-#     update.message.reply_text('Help!')
-
-
-def echo(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(update.message.text)
+def send_through_dialog_flow(update: Update, context: CallbackContext) -> None:
+    response = set_intent(project_id=os.getenv('PROJECT_ID'), session_id=update.effective_user.id, msg=update.message.text, language_code='ru-RU')[0]
+    update.message.reply_text(response)
 
 
 def main() -> None:
@@ -35,9 +29,7 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler('start', start))
-    # dispatcher.add_handler(CommandHandler('help', help_command))
-
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, send_through_dialog_flow))
 
     updater.start_polling()
 
