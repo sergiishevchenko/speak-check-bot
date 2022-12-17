@@ -29,7 +29,7 @@ def send_to_vk(event, vk_api: VkApiMethod):
         vk_api.messages.send(user_id=event.user_id, message=fulfillment_text, random_id=random.randint(1, 1000))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     load_dotenv()
 
     bot = telebot.TeleBot(os.getenv('TG_BOT_TOKEN'))
@@ -48,3 +48,4 @@ if __name__ == "__main__":
                 send_to_vk(event, vk_api)
             except Exception as error:
                 logger.exception('{}'.format(error))
+
