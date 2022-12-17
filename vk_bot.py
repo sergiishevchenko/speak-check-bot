@@ -1,10 +1,11 @@
 import logging
+import os
 import random
 import telebot
 import vk_api as vk
 
+from dotenv import load_dotenv
 from google_methods.set_intent import set_intent
-from environs import Env
 from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.vk_api import VkApiMethod
 
@@ -22,26 +23,28 @@ class TelegramLogsHandler(logging.Handler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-def send_to_vk(event, vk_api: VkApiMethod, env: Env):
-    message, is_correct = set_intent(env('PROJECT_ID'), event.user_id, event.text, language_code='ru-RU')
-    if is_correct:
-        vk_api.messages.send(user_id=event.user_id, message=message, random_id=random.randint(1, 1000))
+def send_to_vk(event, vk_api: VkApiMethod):
+    fulfillment_text, is_fallback = set_intent(os.getenv('PROJECT_ID'), event.user_id, event.text, language_code='ru-RU')
+    if is_fallback:
+        vk_api.messages.send(user_id=event.user_id, message=fulfillment_text, random_id=random.randint(1, 1000))
 
 
 if __name__ == "__main__":
-    env = Env()
-    env.read_env()
+    load_dotenv()
 
-    bot = telebot.TeleBot(env('TG_BOT_TOKEN'))
+    bot = telebot.TeleBot(os.getenv('TG_BOT_TOKEN'))
 
-    logger.addHandler(TelegramLogsHandler(bot, chat_id=env('TG_CHAT_ID')))
+    logger.addHandler(TelegramLogsHandler(bot, chat_id=os.getenv('TG_CHAT_ID')))
     logger.setLevel('INFO')
 
-    vk_session = vk.VkApi(token=env('VK_GROUP_TOKEN'))
+    vk_session = vk.VkApi(token=os.getenv('VK_GROUP_TOKEN'))
     vk_api = vk_session.get_api()
 
     longpoll = VkLongPoll(vk_session)
 
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            send_to_vk(event, vk_api, env)
+            try:
+                send_to_vk(event, vk_api)
+            except Exception as error:
+                logger.exception('{}'.format(error))
