@@ -37,3 +37,8 @@ python3 -m venv myenv && source myenv/bin/activate
 python tg_bot.py | python vk_bot.py
 ```
 Поздравляю! Вы запустили бота!
+
+## Цель проекта
+
+Код написан в учебных целях, это часть курса по созданию [чат-ботов](https://dvmn.org/modules/chat-bots/)
+на сайте веб-разработчиков [Девман](https://dvmn.org/api/docs/).
