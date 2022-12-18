@@ -33,7 +33,7 @@ def create_intent(project_id):
         display_name = '{}'.format(questions_part)
         intent = dialogflow.Intent(display_name=display_name, training_phrases=callback_phrases, messages=response_messages)
 
-        client.create_intent(request={"parent": parent, "intent": intent})
+        client.create_intent(request={'parent': parent, 'intent': intent})
 
 
 if __name__ == '__main__':

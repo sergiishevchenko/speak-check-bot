@@ -24,9 +24,10 @@ class TelegramLogsHandler(logging.Handler):
 
 
 def send_to_vk(event, vk_api: VkApiMethod):
-    fulfillment_text, is_fallback = set_intent(os.getenv('PROJECT_ID'), event.user_id, event.text, language_code='ru-RU')
+    fulfillment_text, is_fallback = set_intent(os.getenv('PROJECT_ID'), event.user_id, event.text, language_code='en-EN')
     if is_fallback:
         vk_api.messages.send(user_id=event.user_id, message=fulfillment_text, random_id=random.randint(1, 1000))
+        logger.info('Сообщение отправлено!')
 
 
 if __name__ == '__main__':
