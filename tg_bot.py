@@ -13,7 +13,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def send_through_dialog_flow(update: Update, context: CallbackContext) -> None:
-    response = set_intent(project_id=os.getenv('PROJECT_ID'), session_id=update.effective_user.id, msg=update.message.text, language_code='ru-RU')[0]
+    response = set_intent(project_id=os.getenv('PROJECT_ID'), session_id=update.effective_user.id, msg=update.message.text, language_code='en-EN')[0]
     update.message.reply_text(response)
 
 
