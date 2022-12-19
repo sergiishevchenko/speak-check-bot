@@ -1,13 +1,14 @@
 import logging
 import os
 
-from environs import Env
+from dotenv import load_dotenv
 from google_methods.set_intent import set_intent
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 logger = logging.getLogger(__name__)
 
+load_dotenv()
 project_id = os.getenv('PROJECT_ID')
 
 
@@ -23,9 +24,6 @@ def send_through_dialog_flow(update: Update, project_id, context: CallbackContex
 
 def main() -> None:
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-
-    env = Env()
-    env.read_env()
 
     updater = Updater(token=os.getenv('TG_BOT_TOKEN'))
 

@@ -1,11 +1,9 @@
 import json
+import os
 
-from environs import Env
 from google.cloud import dialogflow
 
-env = Env()
-env.read_env()
-project_id = env('PROJECT_ID')
+project_id = os.getenv('PROJECT_ID')
 
 
 def create_intent(project_id):
