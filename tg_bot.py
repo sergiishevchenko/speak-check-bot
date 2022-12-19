@@ -2,7 +2,7 @@ import logging
 import os
 
 from dotenv import load_dotenv
-from google_methods.set_intent import set_intent
+from google_methods.get_intent import get_intent
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
@@ -18,7 +18,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def send_through_dialog_flow(update: Update, project_id, context: CallbackContext) -> None:
-    response = set_intent(project_id=project_id, session_id=update.effective_user.id, msg=update.message.text, language_code='en-EN')[0]
+    response = get_intent(project_id=project_id, session_id=update.effective_user.id, msg=update.message.text, language_code='en-EN')[0]
     update.message.reply_text(response)
 
 
