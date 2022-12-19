@@ -23,8 +23,8 @@ class TelegramLogsHandler(logging.Handler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-def send_to_vk(event, vk_api: VkApiMethod):
-    fulfillment_text, is_fallback = set_intent(os.getenv('PROJECT_ID'), event.user_id, event.text, language_code='en-EN')
+def send_to_vk(event, project_id, vk_api: VkApiMethod):
+    fulfillment_text, is_fallback = set_intent(project_id, event.user_id, event.text, language_code='en-EN')
     if is_fallback:
         vk_api.messages.send(user_id=event.user_id, message=fulfillment_text, random_id=random.randint(1, 1000))
         logger.info('Сообщение отправлено!')
@@ -34,6 +34,7 @@ if __name__ == '__main__':
     load_dotenv()
 
     bot = telebot.TeleBot(os.getenv('TG_BOT_TOKEN'))
+    project_id = os.getenv('PROJECT_ID')
 
     logger.addHandler(TelegramLogsHandler(bot, chat_id=os.getenv('TG_CHAT_ID')))
     logger.setLevel('INFO')
@@ -46,7 +47,7 @@ if __name__ == '__main__':
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
             try:
-                send_to_vk(event, vk_api)
+                send_to_vk(event, project_id, vk_api)
             except Exception as error:
                 logger.exception('{}'.format(error))
 

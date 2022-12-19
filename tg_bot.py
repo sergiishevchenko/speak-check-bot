@@ -8,14 +8,16 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 
 logger = logging.getLogger(__name__)
 
+project_id = os.getenv('PROJECT_ID')
+
 
 def start(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
     update.message.reply_markdown_v2(fr'Здравствуйте {user.mention_markdown_v2()}\!', reply_markup=ForceReply(selective=True))
 
 
-def send_through_dialog_flow(update: Update, context: CallbackContext) -> None:
-    response = set_intent(project_id=os.getenv('PROJECT_ID'), session_id=update.effective_user.id, msg=update.message.text, language_code='en-EN')[0]
+def send_through_dialog_flow(update: Update, project_id, context: CallbackContext) -> None:
+    response = set_intent(project_id=project_id, session_id=update.effective_user.id, msg=update.message.text, language_code='en-EN')[0]
     update.message.reply_text(response)
 
 
