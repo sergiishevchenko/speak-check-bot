@@ -28,18 +28,7 @@ cd speak_check_bot/
 python3 -m myenv venv
 source venv\bin\activate
 pip install -r requirements.txt
-python3 bot.py | python3 vk_bot.py
-```
-## Как запустить проект на сервере?
-1. Зайдите на сервер
-```
-ssh root
-```
-2. Зайдите в папку ./opt/speak-check-bot и создайте файл .env, указав **TG_BOT_TOKEN**, **TG_CHAT_ID**, **PROJECT_ID**, **GOOGLE_APPLICATION_CREDENTIALS** и **TELEGRAM_TOKEN**.\
-3. Из этой же папки запустите команды:
-```
-python3 -m venv myenv && source myenv/bin/activate
-python tg_bot.py | python vk_bot.py
+python3 tg_bot.py | python3 vk_bot.py
 ```
 Поздравляю! Вы запустили бота!
 
