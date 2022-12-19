@@ -11,7 +11,4 @@ def get_intent(project_id: str, session_id: str, msg: str, language_code: str) -
 
     response = session_client.detect_intent(request={'session': session, 'query_input': query_input})
 
-    fulfillment_text = response.query_result.fulfillment_text
-    is_fallback = not response.query_result.intent.is_fallback
-
-    return fulfillment_text, is_fallback
+    return response.query_result
