@@ -4,10 +4,11 @@ import os
 from google.cloud import dialogflow
 
 project_id = os.getenv('PROJECT_ID')
+JSON_WITH_QUESTIONS = os.getenv('JSON_WITH_QUESTIONS', default='../questions.json')
 
 
 def create_intent(project_id):
-    with open('../questions.json', 'r') as file:
+    with open(JSON_WITH_QUESTIONS, 'r') as file:
         questions = file.read()
 
     raw_questions = json.loads(questions)
