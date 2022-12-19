@@ -6,6 +6,8 @@ from google_methods.set_intent import set_intent
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
+logger = logging.getLogger(__name__)
+
 
 def start(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
@@ -19,7 +21,6 @@ def send_through_dialog_flow(update: Update, context: CallbackContext) -> None:
 
 def main() -> None:
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-    logger = logging.getLogger(__name__)
 
     env = Env()
     env.read_env()
