@@ -8,8 +8,6 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 
 logger = logging.getLogger(__name__)
 
-load_dotenv()
-
 
 def start(update: Update, context: CallbackContext) -> None:
     user = update.effective_user
@@ -42,4 +40,5 @@ def main() -> None:
 
 
 if __name__ == '__main__':
+    load_dotenv()
     main()
