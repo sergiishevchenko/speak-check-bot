@@ -20,6 +20,7 @@ def send_through_dialog_flow(update: Update, context: CallbackContext) -> None:
 
 
 def main() -> None:
+    load_dotenv()
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
     updater = Updater(token=os.getenv('TG_BOT_TOKEN'))
@@ -40,5 +41,4 @@ def main() -> None:
 
 
 if __name__ == '__main__':
-    load_dotenv()
     main()
